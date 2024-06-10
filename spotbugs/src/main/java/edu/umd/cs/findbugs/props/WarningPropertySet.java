@@ -184,35 +184,35 @@ public class WarningPropertySet<T extends WarningProperty> implements Cloneable 
         if (!relaxedReporting) {
             for (T warningProperty : map.keySet()) {
                 PriorityAdjustment adj = warningProperty.getPriorityAdjustment();
-                if (adj == PriorityAdjustment.PEGGED_HIGH) {
+                if (adj.equals(PriorityAdjustment.PEGGED_HIGH)) {
                     peggedHigh = true;
                     priority--;
-                } else if (adj == PriorityAdjustment.FALSE_POSITIVE) {
+                } else if (adj.equals(PriorityAdjustment.FALSE_POSITIVE)) {
                     falsePositive = true;
                     atMostLow = true;
-                } else if (adj == PriorityAdjustment.A_LITTLE_BIT_LOWER_PRIORITY) {
+                } else if (adj.equals(PriorityAdjustment.A_LITTLE_BIT_LOWER_PRIORITY)) {
                     aLittleBitLower++;
-                } else if (adj == PriorityAdjustment.A_LITTLE_BIT_HIGHER_PRIORITY) {
+                } else if (adj.equals(PriorityAdjustment.A_LITTLE_BIT_HIGHER_PRIORITY)) {
                     aLittleBitLower--;
-                } else if (adj == PriorityAdjustment.RAISE_PRIORITY) {
+                } else if (adj.equals(PriorityAdjustment.RAISE_PRIORITY)) {
                     --priority;
-                } else if (adj == PriorityAdjustment.RAISE_PRIORITY_TO_AT_LEAST_NORMAL) {
+                } else if (adj.equals(PriorityAdjustment.RAISE_PRIORITY_TO_AT_LEAST_NORMAL)) {
                     --priority;
                     atLeastMedium = true;
-                } else if (adj == PriorityAdjustment.LOWER_PRIORITY_TO_AT_MOST_NORMAL) {
+                } else if (adj.equals(PriorityAdjustment.LOWER_PRIORITY_TO_AT_MOST_NORMAL)) {
                     ++priority;
                     atMostMedium = true;
-                } else if (adj == PriorityAdjustment.RAISE_PRIORITY_TO_HIGH) {
+                } else if (adj.equals(PriorityAdjustment.RAISE_PRIORITY_TO_HIGH)) {
 
                     return Priorities.HIGH_PRIORITY;
-                } else if (adj == PriorityAdjustment.LOWER_PRIORITY) {
+                } else if (adj.equals(PriorityAdjustment.LOWER_PRIORITY)) {
                     ++priority;
-                } else if (adj == PriorityAdjustment.AT_MOST_LOW) {
+                } else if (adj.equals(PriorityAdjustment.AT_MOST_LOW)) {
                     priority++;
                     atMostLow = true;
-                } else if (adj == PriorityAdjustment.AT_MOST_MEDIUM) {
+                } else if (adj.equals(PriorityAdjustment.AT_MOST_MEDIUM)) {
                     atMostMedium = true;
-                } else if (adj == PriorityAdjustment.NO_ADJUSTMENT) {
+                } else if (adj.equals(PriorityAdjustment.NO_ADJUSTMENT)) {
                     assert true; // do nothing
                 } else {
                     throw new IllegalStateException("Unknown priority " + adj);

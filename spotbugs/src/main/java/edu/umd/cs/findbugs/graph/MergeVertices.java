@@ -85,7 +85,7 @@ public class MergeVertices<GraphType extends Graph<EdgeType, VertexType>, EdgeTy
             // Don't create a self edge for the composite vertex
             // unless one of the vertices in the vertex set
             // had a self edge
-            if (source == compositeVertex && target == compositeVertex && e.getSource() != e.getTarget()) {
+            if (source.equals(compositeVertex) && target.equals(compositeVertex) && !e.getSource().equals(e.getTarget())) {
                 continue;
             }
 

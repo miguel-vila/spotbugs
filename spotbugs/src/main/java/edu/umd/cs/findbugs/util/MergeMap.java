@@ -70,7 +70,7 @@ public abstract class MergeMap<K, V> {
             return v;
         }
         V result = mergeValues(currentValue, v);
-        if (currentValue != result) {
+        if (currentValue.equals(result)) {
             map.put(k, v);
         }
 

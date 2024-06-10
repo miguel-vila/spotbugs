@@ -73,4 +73,17 @@ public class PriorityAdjustment {
 
     /** Warning is likely to be a false positive. */
     public static final PriorityAdjustment FALSE_POSITIVE = new PriorityAdjustment("FALSE_POSITIVE");
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PriorityAdjustment)) {
+            return false;
+        }
+        return value.equals(((PriorityAdjustment) obj).value);
+    }
 }

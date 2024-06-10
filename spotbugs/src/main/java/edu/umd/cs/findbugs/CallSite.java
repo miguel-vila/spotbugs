@@ -88,6 +88,6 @@ public class CallSite {
             return false;
         }
         CallSite other = (CallSite) o;
-        return method == other.method && getBasicBlock() == other.getBasicBlock() && getHandle() == other.getHandle();
+        return method.equals(other.method) && getBasicBlock().equals(other.getBasicBlock()) && getHandle().equals(other.getHandle());
     }
 }

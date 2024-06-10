@@ -211,7 +211,7 @@ public class PluginLoader implements AutoCloseable {
         if (!hasParent()) {
             classLoader = buildURLClassLoader(loaderURLs, parent);
         } else {
-            if (parent != PluginLoader.class.getClassLoader()) {
+            if (parent.equals(PluginLoader.class.getClassLoader())) {
                 throw new IllegalArgumentException("Can't specify parentid " + parentId + " and provide a separate class loader");
             }
             Plugin parentPlugin = Plugin.getByPluginId(parentId);
