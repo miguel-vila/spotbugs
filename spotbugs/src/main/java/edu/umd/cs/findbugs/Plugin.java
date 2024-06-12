@@ -689,7 +689,7 @@ public class Plugin implements AutoCloseable {
     public static synchronized void removeCustomPlugin(Plugin plugin) {
         Set<Entry<URI, Plugin>> entrySet = Plugin.allPlugins.entrySet();
         for (Entry<URI, Plugin> entry : entrySet) {
-            if (entry.getValue() == plugin) {
+            if (entry.getValue().equals(plugin)) {
                 Plugin.allPlugins.remove(entry.getKey());
                 PluginLoader.loadedPluginIds.remove(plugin.getPluginId());
                 break;

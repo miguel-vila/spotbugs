@@ -372,7 +372,7 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
                 }
             }
         }
-        if ((status == SideEffectStatus.SIDE_EFFECT || status == SideEffectStatus.OBJECT_ONLY) || method.isAbstract()
+        if ((status.equals(SideEffectStatus.SIDE_EFFECT) || status.equals(SideEffectStatus.OBJECT_ONLY)) || method.isAbstract()
                 || method.isInterface() || method.isNative()) {
             handleStatus();
         }
@@ -403,7 +403,7 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
                     }
                 }
                 sawCall(methodCall, false);
-                if (status == SideEffectStatus.SIDE_EFFECT) {
+                if (status.equals(SideEffectStatus.SIDE_EFFECT)) {
                     break;
                 }
             }
@@ -423,7 +423,7 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
             calledMethods = new ArrayList<>();
             superClinitCall();
             statusMap.put(clinit, status);
-            if (status == SideEffectStatus.UNSURE || status == SideEffectStatus.UNSURE_OBJECT_ONLY) {
+            if (status.equals(SideEffectStatus.UNSURE) || status.equals(SideEffectStatus.UNSURE_OBJECT_ONLY)) {
                 calledMethods.trimToSize();
                 callGraph.put(clinit, calledMethods);
             }
@@ -440,7 +440,7 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
 
     private void handleStatus() {
         statusMap.put(getMethodDescriptor(), status);
-        if (status == SideEffectStatus.UNSURE || status == SideEffectStatus.UNSURE_OBJECT_ONLY) {
+        if (status.equals(SideEffectStatus.UNSURE) || status.equals(SideEffectStatus.UNSURE_OBJECT_ONLY)) {
             calledMethods.trimToSize();
             callGraph.put(getMethodDescriptor(), calledMethods);
         } else {
@@ -486,7 +486,7 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
             // Ignore
         }
         if (uselessVoidCandidate && code.length > 1
-                && (status == SideEffectStatus.UNSURE || status == SideEffectStatus.NO_SIDE_EFFECT)) {
+                && (status.equals(SideEffectStatus.UNSURE) || status.equals(SideEffectStatus.NO_SIDE_EFFECT))) {
             uselessVoidCandidates.add(getMethodDescriptor());
         }
         handleStatus();
@@ -505,11 +505,11 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
                 }
             }
         }
-        if (status == SideEffectStatus.SIDE_EFFECT && allowedFields.isEmpty()) {
+        if (status.equals(SideEffectStatus.SIDE_EFFECT) && allowedFields.isEmpty()) {
             // Nothing to do: skip the rest of the method
             throw new EarlyExitException();
         }
-        if (status == SideEffectStatus.SIDE_EFFECT) {
+        if (status.equals(SideEffectStatus.SIDE_EFFECT)) {
             return;
         }
         switch (seen) {
@@ -609,7 +609,7 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
     }
 
     private void sawCall(MethodCall methodCall, boolean finalPass) {
-        if (status == SideEffectStatus.SIDE_EFFECT) {
+        if (status.equals(SideEffectStatus.SIDE_EFFECT)) {
             return;
         }
         MethodDescriptor methodDescriptor = methodCall.getMethod();
@@ -858,14 +858,14 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
         computeFinalStatus();
         Set<String> sideEffectClinit = new HashSet<>();
         for (Entry<MethodDescriptor, SideEffectStatus> entry : statusMap.entrySet()) {
-            if (entry.getValue() == SideEffectStatus.SIDE_EFFECT && entry.getKey().isStatic() && entry.getKey().getName().equals(
+            if (entry.getValue().equals(SideEffectStatus.SIDE_EFFECT) && entry.getKey().isStatic() && entry.getKey().getName().equals(
                     Const.STATIC_INITIALIZER_NAME)) {
                 sideEffectClinit.add(entry.getKey().getSlashedClassName());
             }
         }
         for (Entry<MethodDescriptor, SideEffectStatus> entry : statusMap.entrySet()) {
             MethodDescriptor m = entry.getKey();
-            if (entry.getValue() == SideEffectStatus.NO_SIDE_EFFECT) {
+            if (entry.getValue().equals(SideEffectStatus.NO_SIDE_EFFECT)) {
                 String returnType = new SignatureParser(m.getSignature()).getReturnTypeSignature();
                 if (!returnType.equals("V") || m.getName().equals(Const.CONSTRUCTOR_NAME)) {
                     if (m.equals(GET_CLASS)) {
@@ -933,7 +933,7 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
                         noSideEffectMethods.add(m, MethodSideEffectStatus.USELESS);
                     }
                 }
-            } else if (entry.getValue() == SideEffectStatus.OBJECT_ONLY) {
+            } else if (entry.getValue().equals(SideEffectStatus.OBJECT_ONLY)) {
                 noSideEffectMethods.add(m, MethodSideEffectStatus.OBJ);
             }
         }
@@ -986,7 +986,7 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
                 calledMethods = new ArrayList<>();
                 for (MethodCall methodCall : entry.getValue()) {
                     sawCall(methodCall, true);
-                    if (status == SideEffectStatus.SIDE_EFFECT) {
+                    if (status.equals(SideEffectStatus.SIDE_EFFECT)) {
                         break;
                     }
                 }
@@ -1007,7 +1007,7 @@ public class FindNoSideEffectMethods extends OpcodeStackDetector implements NonR
         for (Entry<MethodDescriptor, List<MethodCall>> entry : callGraph.entrySet()) {
             MethodDescriptor method = entry.getKey();
             status = statusMap.get(method);
-            if (status == SideEffectStatus.UNSURE) {
+            if (status.equals(SideEffectStatus.UNSURE)) {
                 boolean safeCycle = true;
                 for (MethodCall methodCall : entry.getValue()) {
                     SideEffectStatus calledStatus = statusMap.get(methodCall.getMethod());

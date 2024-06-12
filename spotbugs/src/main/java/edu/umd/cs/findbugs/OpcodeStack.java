@@ -3737,7 +3737,7 @@ public class OpcodeStack {
             newItem.signature = signature;
         }
         if (newItem.getRegisterNumber() < 0) {
-            if (newItem == oldItem) {
+            if (newItem.equals(oldItem)) {
                 newItem = new Item(oldItem);
             }
             newItem.registerNumber = register;

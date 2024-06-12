@@ -128,6 +128,15 @@ public class BugRanker {
 
             }
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof Scorer)) {
+                return false;
+            }
+            Scorer other = (Scorer) o;
+            return adjustment.equals(other.adjustment) && isRelative.equals(other.isRelative);
+        }
     }
 
     /**
@@ -284,7 +293,7 @@ public class BugRanker {
             BugRanker pluginRanker = plugin.getBugRanker();
             BugRanker coreRanker = getCoreRanker();
 
-            if (pluginRanker == coreRanker) {
+            if (pluginRanker.equals(coreRanker)) {
                 rank = rankBugPattern(pattern, coreRanker);
             } else {
                 rank = rankBugPattern(pattern, pluginRanker, coreRanker);
@@ -327,5 +336,21 @@ public class BugRanker {
                 i.remove();
             }
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return bugPatterns.hashCode() + bugKinds.hashCode() + bugCategories.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof BugRanker)) {
+            return false;
+        }
+        BugRanker other = (BugRanker) o;
+        return bugPatterns.equals(other.bugPatterns)
+                && bugKinds.equals(other.bugKinds)
+                && bugCategories.equals(other.bugCategories);
     }
 }

@@ -114,7 +114,7 @@ public abstract class ClassNameRewriterUtil {
      * @return the possibly-rewritten FieldAnnotation
      */
     public static FieldAnnotation convertFieldAnnotation(ClassNameRewriter classNameRewriter, FieldAnnotation annotation) {
-
+        // how to avoid the refcomp check for singletons?
         if (classNameRewriter != IdentityClassNameRewriter.instance()) {
             annotation = new FieldAnnotation(classNameRewriter.rewriteClassName(annotation.getClassName()),
                     annotation.getFieldName(), rewriteSignature(classNameRewriter, annotation.getFieldSignature()),

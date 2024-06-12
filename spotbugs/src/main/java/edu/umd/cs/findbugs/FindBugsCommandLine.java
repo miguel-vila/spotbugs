@@ -20,6 +20,7 @@ package edu.umd.cs.findbugs;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -117,7 +118,7 @@ public abstract class FindBugsCommandLine extends CommandLine {
                 throw new IllegalArgumentException("-effort:<value> must be one of min,default,more,max");
             }
         } else if ("-workHard".equals(option)) {
-            if (settingList != FindBugs.MAX_EFFORT) {
+            if (Arrays.equals(settingList, FindBugs.DEFAULT_EFFORT)) {
                 settingList = FindBugs.MORE_EFFORT;
             }
 

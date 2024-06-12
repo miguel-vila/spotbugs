@@ -375,6 +375,7 @@ public class ProjectStats implements XMLWriteable, Cloneable {
     FileBugHash fileBugHashes;
 
     public void computeFileStats(BugCollection bugs) {
+        // maybe this should be an exception for th refcomp check
         if (bugs.getProjectStats() != this) {
             throw new IllegalArgumentException("Collection doesn't own stats");
         }

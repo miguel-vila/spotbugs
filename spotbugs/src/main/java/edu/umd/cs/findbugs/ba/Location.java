@@ -136,7 +136,7 @@ public class Location implements Comparable<Location> {
             return false;
         }
         Location other = (Location) o;
-        return basicBlock == other.basicBlock && handle == other.handle;
+        return basicBlock.equals(other.basicBlock) && handle.equals(other.handle);
     }
 
     @Override
